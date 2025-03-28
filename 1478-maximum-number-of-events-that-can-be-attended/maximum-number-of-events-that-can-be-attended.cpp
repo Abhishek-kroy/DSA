@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
+#include <queue>
 #include <algorithm>
 
 using namespace std;
@@ -14,41 +15,47 @@ public:
         //     cout << "[" << e[0] << ", " << e[1] << "]\n";
         // }
 
-        // Corrected sorting logic: Sort by end time, then by start time
-        // sort(events.begin(), events.end(), [](const vector<int>& a, const vector<int>& b) {
-        //     if (a[1] != b[1]) return a[1] < b[1]; // Sort by end time first
-        //     return a[0] < b[0];  // If same end time, sort by start time
-        // });
+        // Sort events
+        sort(events.begin(), events.end());
 
-        // Debug: Print sorted events
+        // // Debug: Print sorted events
         // cout << "\nSorted events:\n";
         // for (const auto& e : events) {
         //     cout << "[" << e[0] << ", " << e[1] << "]\n";
         // }
 
-        sort(events.begin(),events.end());
         unordered_set<int> attendedDays;
         int cnt = 0;
+        int i = 0, n = events.size();
+        priority_queue<int, vector<int>, greater<int>> pq;
 
-        int i=0;
-        int n=events.size();
-        priority_queue<int,vector<int>,greater<int>> pq;
-        for(int d=1;d<=100000;d++){
-            while(!pq.empty() and pq.top()<d) pq.pop();
-            while(i<n and events[i][0]==d){
+        for (int d = 1; d <= 100000; d++) {
+            // Remove expired events
+            while (!pq.empty() && pq.top() < d) {
+                // cout << "Removing expired event ending on day " << pq.top() << "\n";
+                pq.pop();
+            }
+
+            // Add new events starting today
+            while (i < n && events[i][0] <= d) {
                 pq.push(events[i][1]);
+                // cout << "Adding event [" << events[i][0] << ", " << events[i][1] << "] to PQ\n";
                 i++;
             }
-            if (!pq.empty()) {
+
+            // Attend an event if available
+            if (!pq.empty() && pq.top() >= d) {
+                // cout << "Attending event ending on day " << pq.top() << " on day " << d << "\n";
                 cnt++;
                 pq.pop();
             }
+
+            // Stop early if no events are left
+            if (pq.empty() && i >= n) break;
         }
 
-        return cnt;
-
-        // Debug: Print final count of attended events
-        cout << "\nTotal events attended: " << cnt << "\n";
+        // Debug: Print total attended events
+        // cout << "\nTotal events attended: " << cnt << "\n";
 
         return cnt;
     }
