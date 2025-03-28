@@ -19,11 +19,7 @@ public:
                 return palindrome;
             }
         }
-        if(palindrome[palindrome.size()/2]=='a')
-            palindrome.back()='b';
-        else{
-            palindrome.back()='b';
-        }
+        palindrome.back()='b';
         return palindrome;
     }
 };
