@@ -18,22 +18,17 @@ class Solution {
     // }
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
-        vector<vector<int>> dp(triangle.size(),vector<int> (triangle.back().size(),-1));
-        for(int j=0;j<triangle.back().size();j++){
-            dp[triangle.size()-1][j]=triangle[triangle.size()-1][j];
-        }
+        vector<int> dp=triangle.back();
 
         for(int level=triangle.size()-2;level>=0;level--){
+            vector<int> temp(triangle[level].size()+1);
             for(int j=0;j<=level;j++){
-                dp[level][j]=triangle[level][j]+min(dp[level+1][j],dp[level+1][j+1]);
+                temp[j]=triangle[level][j]+min(dp[j],dp[j+1]);
             }
+            dp=temp;
         }
-        // 2
-        // 3 4
-        // 6 5 7
-        // 4 1 8 3
 
-        return dp[0][0];
+        return dp[0];
         // return triangle[0][0]+getans(triangle,2,0);
     }
 };
