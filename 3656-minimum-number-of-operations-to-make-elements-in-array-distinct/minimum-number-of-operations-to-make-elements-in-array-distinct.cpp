@@ -6,7 +6,7 @@ public:
         for(int i=0;i<nums.size();i++){
             if(m.find(nums[i])!=m.end()){
                 l=max(l,m[nums[i]]);
-                cout<<l<<endl;
+
             }
             m[nums[i]]=i;
         }
