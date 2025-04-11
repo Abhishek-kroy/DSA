@@ -1,31 +1,30 @@
+using namespace std;
+
 class Solution {
+    vector<int> prefix;
+
 public:
-    int countSymmetricIntegers(int low, int high) {
-        int cnt=0;
-        while(low<=high){
-            int v=low;
-            low++;
+    Solution() {
+        prefix.resize(10002);
+        int cnt = 0;
 
-            string val=to_string(v);
-            int s1=0;
-            int s2=0;
-            if(val.size()%2){
-                continue;
-            }
+        for (int v = 0; v <= 10001; v++) {
+            string val = to_string(v);
+            int s1 = 0, s2 = 0;
 
-            for(int i=0;i<val.size()/2;i++){
-                s1+=(val[i]-'0');
-            }
-            for(int i=val.size()/2;i<val.size();i++){
-                s2+=(val[i]-'0');
+            if (val.size() % 2 == 0) {
+                int mid = val.size() / 2;
+                for (int i = 0; i < mid; i++) s1 += (val[i] - '0');
+                for (int i = mid; i < val.size(); i++) s2 += (val[i] - '0');
+
+                if (s1 == s2) cnt++;
             }
 
-            if(s1==s2){
-                cout<<v<<endl;
-                cnt++;
-            }
+            prefix[v] = cnt;
         }
+    }
 
-        return cnt;
+    int countSymmetricIntegers(int low, int high) {
+        return prefix[high] - prefix[low - 1];
     }
 };
