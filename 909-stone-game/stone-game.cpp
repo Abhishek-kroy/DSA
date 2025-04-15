@@ -41,7 +41,7 @@ public:
     bool stoneGame(vector<int>& piles) {
         int n = piles.size();
         vector<int> suffix(n+1, piles[n - 1]);
-        suffix.back()=0;
+        suffix[n]=0;
         for (int i = n - 2; i >= 0; i--) {
             suffix[i] = suffix[i + 1] + piles[i];
         }
