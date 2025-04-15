@@ -22,7 +22,7 @@ public:
 
         int w4 = piles[j] + getans(piles, i + 1, j - 1, suffix);
 
-        int total = suffix[i];
+        int total = suffix[i]-suffix[j+1];
         if (w1 > total - w1) {
             return dp[{i, j}] = w1;
         }
@@ -39,13 +39,14 @@ public:
     }
 
     bool stoneGame(vector<int>& piles) {
-        // int n = piles.size();
-        // vector<int> suffix(n, piles[n - 1]);
-        // for (int i = n - 2; i >= 0; i--) {
-        //     suffix[i] = suffix[i + 1] + piles[i];
-        // }
-        // int w1=getans(piles, 0, n - 1, suffix);
-        // return w1>suffix[0]-w1;
+        int n = piles.size();
+        vector<int> suffix(n+1, piles[n - 1]);
+        suffix.back()=0;
+        for (int i = n - 2; i >= 0; i--) {
+            suffix[i] = suffix[i + 1] + piles[i];
+        }
+        int w1=getans(piles, 0, n - 1, suffix);
+        return w1>suffix[0]-w1;
 
         return true;
     }
