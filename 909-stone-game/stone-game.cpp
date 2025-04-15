@@ -39,12 +39,14 @@ public:
     }
 
     bool stoneGame(vector<int>& piles) {
-        int n = piles.size();
-        vector<int> suffix(n, piles[n - 1]);
-        for (int i = n - 2; i >= 0; i--) {
-            suffix[i] = suffix[i + 1] + piles[i];
-        }
-        int w1=getans(piles, 0, n - 1, suffix);
-        return w1>suffix[0]-w1;
+        // int n = piles.size();
+        // vector<int> suffix(n, piles[n - 1]);
+        // for (int i = n - 2; i >= 0; i--) {
+        //     suffix[i] = suffix[i + 1] + piles[i];
+        // }
+        // int w1=getans(piles, 0, n - 1, suffix);
+        // return w1>suffix[0]-w1;
+
+        return true;
     }
 };
