@@ -13,7 +13,7 @@ public:
             m[nums[i]]++;
             v=m[nums[i]];
             comb+=(v*(v-1))/2;
-            while (comb >= k && j<i) {
+            while (comb >= k) {
                 ans+=nums.size()-i;
                 v=m[nums[j]];
                 comb-=(v*(v-1))/2;
