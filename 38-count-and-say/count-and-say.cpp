@@ -1,36 +1,24 @@
 class Solution {
+    map<int,string> m;
 public:
-    string compress(string s){
-        int i=0;
-        string ans="";
-        while(i<s.size()){
-            int cnt=0;
-            char c=s[i];
-            int j=i;
-            while(j<s.size() and c==s[j]){
-                cnt++;
-                j++;
-            }
-            i=j;
-
-            ans=ans+to_string(cnt);
-            ans+=c;
-        }
-
-        return ans;
+    Solution(){
+    m[1]="1";
     }
     string countAndSay(int n) {
-        queue<string> q;      
-        n--;
-        q.push("1");
-
-        while(n--){
-            string s=q.front();
-            q.pop();
-            q.push(compress(s));
-        }
-
-        return q.front();
-
+       if(m.find(n) != m.end()){
+        return m[n];
+       }
+       string res=countAndSay(n-1);
+       string ans="";
+       for(int i=0;i<res.size();i++){
+            int cnt = 1; // Initialize count to 1 for the current digit
+            while (i + 1 < res.size() && res[i] == res[i + 1]) {
+                cnt++;
+                i++;
+            }
+            ans += to_string(cnt) + res[i];
+       }
+       m[n]=ans;
+       return ans;
     }
 };
