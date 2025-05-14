@@ -1,8 +1,24 @@
 class Solution {
 public:
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
-        intervals.push_back(newInterval);
-        sort(intervals.begin(),intervals.end());
+        // intervals.push_back(newInterval);
+        // sort(intervals.begin(),intervals.end());
+
+        if(intervals.size())
+        for(int i=0;i<intervals.size();i++){
+            bool inserted=false;
+            if(newInterval[0]<=intervals[i][0]){
+                intervals.insert(intervals.begin()+i,newInterval);
+                inserted=true;
+                break;
+            }
+            if(!inserted){
+                intervals.push_back(newInterval);
+            }
+        }
+        else{
+            intervals.push_back(newInterval);
+        }
 
         int st=intervals[0][0];
         int end=intervals[0][1];
