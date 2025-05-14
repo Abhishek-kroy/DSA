@@ -1,47 +1,27 @@
 class Solution {
 public:
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
-        // intervals.push_back(newInterval);
-        // sort(intervals.begin(),intervals.end());
-
-        if(intervals.size())
-        for(int i=0;i<intervals.size();i++){
-            bool inserted=false;
-            if(newInterval[0]<=intervals[i][0]){
-                intervals.insert(intervals.begin()+i,newInterval);
-                inserted=true;
-                break;
-            }
-            if(!inserted){
-                intervals.push_back(newInterval);
-            }
-        }
-        else{
-            intervals.push_back(newInterval);
-        }
-
-        int st=intervals[0][0];
-        int end=intervals[0][1];
-        int n=intervals.size();
         vector<vector<int>> ans;
-        for(int i=0;i<n;i++){
-            if(st==-1){
-                st=intervals[i][0];
-                end=intervals[i][1];
-                continue;
-            }
-            if(intervals[i][0]<=end){
-                end=max(intervals[i][1],end);
-            }
-            else{
-                ans.push_back({st,end});
-                st=intervals[i][0];
-                end=intervals[i][1];
-            }
+        int i = 0, n = intervals.size();
+        
+        while (i < n && intervals[i][1] < newInterval[0]) {
+            ans.push_back(intervals[i]);
+            i++;
         }
         
-        ans.push_back({st,end});
 
+        while (i < n && intervals[i][0] <= newInterval[1]) {
+            newInterval[0] = min(newInterval[0], intervals[i][0]);
+            newInterval[1] = max(newInterval[1], intervals[i][1]);
+            i++;
+        }
+        ans.push_back(newInterval);
+        
+        while (i < n) {
+            ans.push_back(intervals[i]);
+            i++;
+        }
+        
         return ans;
     }
 };
