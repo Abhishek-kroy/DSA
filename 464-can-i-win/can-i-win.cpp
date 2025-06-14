@@ -1,24 +1,20 @@
 class Solution {
 public:
-    unordered_map<string, bool> dp;
+    unordered_map<int, bool> dp;
 
-    bool getans(int maxChoosableInteger, int desiredTotal, string &s) {
-        if (dp.count(s)) return dp[s];
+    bool getans(int maxChoosableInteger, int desiredTotal, int used) {
+        if (dp.count(used)) return dp[used];
 
-        for (int i = 1; i <= maxChoosableInteger; i++) {
-            if (s[i - 1] == '0') {
-                s[i - 1] = '1';
-
-                if (desiredTotal - i <= 0 || !getans(maxChoosableInteger, desiredTotal - i, s)) {
-                    s[i - 1] = '0';
-                    return dp[s] = true;
+        for (int i = 0; i < maxChoosableInteger; i++) {
+            if (!(used & (1 << i))) { // number (i+1) not used
+                if (desiredTotal <= i + 1 || 
+                    !getans(maxChoosableInteger, desiredTotal - (i + 1), used | (1 << i))) {
+                    return dp[used] = true; // current player wins
                 }
-
-                s[i - 1] = '0';
             }
         }
 
-        return dp[s] = false;
+        return dp[used] = false; // no winning move
     }
 
     bool canIWin(int maxChoosableInteger, int desiredTotal) {
@@ -27,7 +23,6 @@ public:
         if (sum < desiredTotal) return false;
         if (desiredTotal <= 0) return true;
 
-        string s(maxChoosableInteger, '0');
-        return getans(maxChoosableInteger, desiredTotal, s);
+        return getans(maxChoosableInteger, desiredTotal, 0); // 0 → no numbers used yet
     }
 };
