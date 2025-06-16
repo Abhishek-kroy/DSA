@@ -30,7 +30,6 @@ public:
     }
 
     int numSquarefulPerms(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
         return getans(nums, 0, -1);
     }
 };
