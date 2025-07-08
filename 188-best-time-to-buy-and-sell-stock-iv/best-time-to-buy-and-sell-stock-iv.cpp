@@ -18,7 +18,7 @@ public:
 
         // sell
         if(buyed){
-            w2=max(w1,prices[i]+getans(k-1,prices,false,i+1));
+            w2=max(w2,prices[i]+getans(k-1,prices,false,i+1));
         }
 
         // skip
