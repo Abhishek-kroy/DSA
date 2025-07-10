@@ -1,22 +1,26 @@
-auto init = atexit([]() { ofstream("display_runtime.txt") << "0";});
 class Solution {
 public:
+    string geten(string s){
+        vector<int> f(26,0);
+        for(auto v:s){
+            f[v-'a']++;
+        }
+        string str="";
+        for(auto v:f){
+            str+=v;
+        }
+        return str;
+    }
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        vector<vector<string>> ans;
-        unordered_map<string,vector<string>> dp;
-        for(int i=0;i<strs.size();i++){
-            unordered_map<char,int> m;
-            for(auto c:strs[i]){
-                m[c]++;
-            }
-            string s="";
-            for(int i=0;i<26;i++){
-                s+=m[i+'a'];
-            }
-            dp[s].push_back(strs[i]);
+        unordered_map<string,vector<string>> m;
+        for(auto str:strs){
+            string en=geten(str);
+            m[en].push_back(str);
         }
 
-        for(auto p:dp){
+        vector<vector<string>> ans;
+
+        for(auto p:m){
             ans.push_back(p.second);
         }
 
