@@ -52,7 +52,7 @@ public:
 
         int ans=0;
         for(auto v:nums){
-            ans=max(ans,d->size[d->find(v)]);
+            ans=max(ans,d->size[v]);
         }
 
         return ans;
