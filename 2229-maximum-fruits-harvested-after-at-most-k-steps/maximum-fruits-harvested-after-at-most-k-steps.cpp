@@ -21,13 +21,13 @@ public:
 
         while(r<n){
 
+            sum+=fruits[r][1];
 
             while(l<=r && steps(l,r,startPos,fruits)>k){
                 sum-=fruits[l][1];
                 l++;
             }
             
-            sum+=fruits[r][1];
 
             ans=max(ans,sum);
             r++;
