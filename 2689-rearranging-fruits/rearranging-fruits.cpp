@@ -41,6 +41,7 @@ public:
                 }
             }
         }
+        if(f.size()%2)  return -1;
 
         sort(f.begin(),f.end());
 
