@@ -1,38 +1,22 @@
 class Solution {
 public:
-    int numSubmat(vector<vector<int>>& matrix) {
-         int n = matrix.size();
-        if (n == 0) return 0;
-        
-        int m = matrix[0].size();
-        vector<vector<int>> prefix(n, vector<int>(m, 0));
-
-        for (int i = 0; i < n; i++) {
-            for (int j = m - 1; j >= 0; j--) {
-                if (j == m - 1) {
-                    if (matrix[i][j] == 1) {
-                        prefix[i][j] = 1;
-                    }
-                } else {
-                    if (matrix[i][j] == 1) {
-                        prefix[i][j] = 1 + prefix[i][j + 1];
-                    }
+    int numSubmat(vector<vector<int>>& mat) {
+        int m=mat.size();
+        int n=mat[0].size();
+        vector<int> h(n,0);
+        int ans=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(mat[i][j]){
+                    h[j]=1+h[j];
                 }
-            }
-        }
-
-        int ans = 0;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = m - 1; j >= 0; j--) {
-                if (matrix[i][j] == 1) {
-                    int cnt = 0;
-                    int width=prefix[i][j];
-                    for (int k = i; k < n and width>0; k++) {
-                        cnt++;
-                        width=min(width,prefix[k][j]);
-                        ans += ( width);
-                    }
+                else{
+                    h[j]=0;
+                }
+                int w=h[j];
+                for(int k=j;k>=0;k--){
+                    w=min(w,h[k]);
+                    ans+=w;
                 }
             }
         }
