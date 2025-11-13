@@ -1,7 +1,9 @@
 class Solution {
 public:
     int maxOperations(string s) {
-        vector<int> cnt;
+        int ans=0;
+        int prev=0;
+        // vector<int> cnt;
         int n=s.size();
         for(int i=0;i<n;i++){
             if(s[i]=='1'){
@@ -10,17 +12,17 @@ public:
                     count++;
                     i++;
                 }   
-                if(i<=n-1) 
-                    cnt.push_back(count);
+                if(i<=n-1) {
+                    int c=count;
+                    ans=ans+(c+prev);
+                    prev=c+prev;
+                }
             }
         }
 
-        int ans=0;
-        int prev=0;
-        for(auto c:cnt){
-            ans=ans+(c+prev);
-            prev=c+prev;
-        }
+        // for(auto c:cnt){
+            
+        // }
 
         return ans; 
     }
