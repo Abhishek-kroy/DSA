@@ -1,0 +1,1 @@
+<h2>smallest-substring-with-identical-characters-ii Notes</h2><hr>[ Time taken: 1 hr 22 m 26 s ]
