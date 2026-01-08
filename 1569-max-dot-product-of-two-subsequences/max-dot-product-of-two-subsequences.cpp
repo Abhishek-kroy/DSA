@@ -22,16 +22,43 @@ public:
 
         int ans=INT_MIN;
 
-        for(int i=0;i<n1;i++){
-            for(int j=0;j<n2;j++){
-                ans=max(ans,nums1[i]*nums2[j]);
+        // for(int i=0;i<n1;i++){
+        //     for(int j=0;j<n2;j++){
+        //         ans=max(ans,nums1[i]*nums2[j]);
+        //     }
+        // }
+
+        // if(ans<0)   return ans;  
+
+        for(int i1=0;i1<n1;i1++){
+            for(int i2=0;i2<n2;i2++){
+                if(i1==0){
+                    if(i2==0){
+                        dp[i1][i2]=nums1[i1]*nums2[i2];
+                    }
+                    else
+                        dp[i1][i2]=max(nums1[i1]*nums2[i2],dp[i1][i2-1]);
+                }
+                else{
+                    if(i2==0){
+                        dp[i1][i2]=max(nums1[i1]*nums2[i2],dp[i1-1][i2]);
+                    }
+                    else{
+                        int w1=nums1[i1]*nums2[i2]+max(0,dp[i1-1][i2-1]);  
+                        int w2=dp[i1-1][i2];
+                        int w3=dp[i1][i2-1];      
+
+                        dp[i1][i2]=max({w1,w2,w3});     
+                    }
+                }
+
             }
         }
 
-        if(ans<0)   return ans;
+        return dp[n1-1][n2-1]; 
 
 
-        return getans(nums1,nums2,n1-1,n2-1,dp);              
+        // return getans(nums1,nums2,n1-1,n2-1,dp);                        
 
         
     }
