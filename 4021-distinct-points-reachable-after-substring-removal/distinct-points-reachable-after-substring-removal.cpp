@@ -12,13 +12,13 @@ public:
             netU[i] = netU[i - 1] + (s[i] == 'U' ? 1 : (s[i] == 'D' ? -1 : 0));
         }
 
-        unordered_set<string> st;  
+        unordered_set<long long> st;  
 
         for (int i = 0; i <= n - k; i++) {
             int r = (i > 0 ? netR[i - 1] : 0) + (netR[n - 1] - netR[i + k - 1]);
             int u = (i > 0 ? netU[i - 1] : 0) + (netU[n - 1] - netU[i + k - 1]);
-
-            st.insert(to_string(r) + "," + to_string(u));
+            long long key=((1LL*r)<<32 ^ (1LL*u));   
+            st.insert(key);  
         }
 
         return st.size();
