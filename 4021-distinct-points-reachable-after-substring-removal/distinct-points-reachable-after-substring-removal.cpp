@@ -12,7 +12,7 @@ public:
             netU[i] = netU[i - 1] + (s[i] == 'U' ? 1 : (s[i] == 'D' ? -1 : 0));
         }
 
-        set<string> st;
+        unordered_set<string> st;  
 
         for (int i = 0; i <= n - k; i++) {
             int r = (i > 0 ? netR[i - 1] : 0) + (netR[n - 1] - netR[i + k - 1]);
