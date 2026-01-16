@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 class SegmentTree {
 public:
     int n; 
@@ -45,7 +42,7 @@ public:
             }
         }
 
-        auto &v = seg[ind];
+        auto v = seg[ind];
         if(v.empty()) return 0;
 
         sort(v.begin(), v.end());
@@ -75,7 +72,7 @@ public:
         int MOD = 1e9 + 7;
 
         vector<long long> ys;
-        for(auto &r : rectangles){
+        for(auto r : rectangles){
             ys.push_back(r[1]);
             ys.push_back(r[3]);
         }
@@ -89,7 +86,7 @@ public:
 
         SegmentTree st((int)ys.size() - 1);
 
-        for(auto &r : rectangles){
+        for(auto r : rectangles){      
             int yl = yid[r[1]];
             int yr = yid[r[3]] - 1;
             st.update(yl, yr, r[0], r[2]);
