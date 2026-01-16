@@ -11,7 +11,6 @@ public:
         seg.resize(4 * n);
     }
 
-    // Store ONLY at leaves
     void rangeupdate(int ind, int left, int right,
                      int ql, int qr,
                      long long lx, long long rx){
@@ -33,10 +32,7 @@ public:
             rangeupdate(0, 0, n-1, yl, yr, lx, rx);
     }
 
-    // Merge x-intervals stored at LEAF idx
     long long mergedLength(int idx){
-        // idx is a leaf index in Y-strip space
-        // find corresponding leaf node in seg-tree
         int ind = 0, left = 0, right = n-1;
         while(left != right){
             int mid = (left + right) / 2;
@@ -76,9 +72,8 @@ class Solution {
 public:
     long long rectangleArea(vector<vector<int>>& rectangles) {
 
-        int MOD=1e9+7;    
+        int MOD = 1e9 + 7;
 
-        // --- Y compression ---
         vector<long long> ys;
         for(auto &r : rectangles){
             ys.push_back(r[1]);
@@ -92,24 +87,21 @@ public:
         for(int i = 0; i < (int)ys.size(); i++)
             yid[ys[i]] = i;
 
-        // Segment tree over Y-intervals
         SegmentTree st((int)ys.size() - 1);
 
-        // Insert rectangles
         for(auto &r : rectangles){
             int yl = yid[r[1]];
-            int yr = yid[r[3]] - 1;   // IMPORTANT
+            int yr = yid[r[3]] - 1;
             st.update(yl, yr, r[0], r[2]);
         }
 
-        // Compute area
         long long ans = 0;
         for(int i = 0; i < (int)ys.size() - 1; i++){
             long long height = ys[i+1] - ys[i];
             long long coveredX = st.mergedLength(i);
-            ans = (ans+(height * coveredX)%MOD)%MOD;
+            ans = (ans + (height * coveredX) % MOD) % MOD;
         }
 
         return ans;
     }
-}; 
+};  
