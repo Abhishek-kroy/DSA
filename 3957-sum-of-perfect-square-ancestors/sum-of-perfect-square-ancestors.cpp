@@ -1,10 +1,14 @@
 class Solution {
 public:
-    vector<int> pr;
-    void process(){  
+    static vector<int> pr;
+    static void process(){  
+
+        if(pr.size()!=0){
+            return ; 
+        }
         int n=1e5+2;
         pr.resize(n+1,-1);   
-
+  
         pr[0]=0;
         pr[1]=0;
 
@@ -79,3 +83,5 @@ public:
         return dfs(0,visited,adj,fact,ft);   
     }
 };
+
+vector<int> Solution::pr;              
