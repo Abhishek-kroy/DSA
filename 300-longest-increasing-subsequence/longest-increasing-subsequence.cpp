@@ -21,7 +21,20 @@ public:
     }
     int lengthOfLIS(vector<int>& nums) {
         int n=nums.size();
-        vector<vector<int>> dp(n,vector<int> (n+1,-1));
-        return getans(nums,0,-1,dp);
+        // vector<vector<int>> dp(n,vector<int> (n+1,-1));
+        // return getans(nums,0,-1,dp);
+
+        vector<int> dp;
+        for(int i=0;i<n;i++){
+            auto it=lower_bound(dp.begin(),dp.end(),nums[i]);
+            if(it==dp.end()){
+                dp.push_back(nums[i]);
+            }
+            else{
+                *it=nums[i];
+            }
+
+        }
+        return dp.size();   
     }
 };
