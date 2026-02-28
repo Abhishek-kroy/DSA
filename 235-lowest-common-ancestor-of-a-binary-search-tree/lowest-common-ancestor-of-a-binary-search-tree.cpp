@@ -16,17 +16,17 @@ public:
             return ;
         }
 
-        if(root->val==p->val || root->val==q->val){
+        // if(root->val==p->val || root->val==q->val){
+        //     ans=root;
+        //     return ;
+        // }    
+
+        if(root->val>=p->val && root->val<=q->val){
             ans=root;
             return ;
         }
 
-        if(root->val>p->val && root->val<q->val){
-            ans=root;
-            return ;
-        }
-
-        if(root->val<p->val && root->val<q->val){
+        if(root->val<=p->val && root->val<=q->val){
             getans(root->right,p,q);
             return ;
         }
