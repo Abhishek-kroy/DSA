@@ -11,27 +11,32 @@
 class Solution {
 public:
     TreeNode* ans=NULL;
-    bool getans(TreeNode* root, TreeNode* p, TreeNode* q){
+    void getans(TreeNode* root, TreeNode* p, TreeNode* q){
         if(!root){
-            return false;
+            return ;
         }
 
-        int cnt=0;
-
-        if(root==p || root==q){
-            cnt++;
-        }
-
-        cnt=(getans(root->left,p,q)? cnt+1:cnt);
-        cnt=(getans(root->right,p,q)? cnt+1:cnt);
-
-        if(cnt==2 && !ans){
+        if(root->val==p->val || root->val==q->val){
             ans=root;
+            return ;
         }
 
-        return cnt;
+        if(root->val>p->val && root->val<q->val){
+            ans=root;
+            return ;
+        }
+
+        if(root->val<p->val && root->val<q->val){
+            getans(root->right,p,q);
+            return ;
+        }
+        
+        getans(root->left,p,q);            
     }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(p->val>q->val){
+            swap(p,q);
+        }
         getans(root,p,q);     
         return ans;
     }
