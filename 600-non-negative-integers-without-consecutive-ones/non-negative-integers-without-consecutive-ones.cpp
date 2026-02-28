@@ -1,58 +1,50 @@
 class Solution {
 public:
-    int getans(int pos,vector<int> &digits,int tight,int prevone,vector<vector<vector<int>>> &dp){
-        if(pos==digits.size()){
+    int getans(string s,int tight,int prev,int i,vector<vector<vector<int>>>& dp){
+        int n=s.size();
+        if(i>=n){
             return 1;
         }
 
-
-        if(dp[pos][tight][prevone]!=-1){
-            return dp[pos][tight][prevone];
+        if(dp[i][tight][prev]!=-1){
+            return dp[i][tight][prev];
         }
 
-        int limit;
-        if(tight){
-            limit=digits[pos];
-        }
-        else{
-            limit=1;
-        }
+        int w1=0;
 
-        // if(prevone){
-        //     if(limit==1){
-        //         limit=0;
-        //     }
-        // }
+        int limit=(tight ? s[i]-'0':1);
 
-        // 1 1 0
+        for(int j=0;j<=limit;j++){      
+            int ntight=tight&&(j==limit);
+            if(prev && j==1){
+                continue;
+            }
+            w1+=getans(s,ntight,j==1 ? 1:0,i+1,dp)  ;   
 
-        int w=0;
-
-        for(int i=0;i<=limit;i++){
-            if(prevone && i==1) continue;
-            bool newtight=(tight&&(i==limit));
-            bool newprevone=(i==1);
-            w+=getans(pos+1,digits,newtight,newprevone,dp);
         }
 
-        return dp[pos][tight][prevone]=w;
-    }
+        dp[i][tight][prev]=w1;
 
-    vector<int> getdigit(int n){
-        vector<int> d;
-        while(n>0){
-            int bit=n&1;
-            d.push_back(bit);
-            n=n>>1;
-        }
-        return d;
+
+        return dp[i][tight][prev]    ;  
+
     }
 
     int findIntegers(int n) {
+        string s="";
+        int val=n;
+        while(val){
+            int b=val&1;                
+            s=to_string(b)+s;
+            val>>=1;
+        }
 
-        vector<int> digits=getdigit(n);
-        reverse(digits.begin(),digits.end());
-        vector<vector<vector<int>>> dp(digits.size(),vector<vector<int>> (2,vector<int>(2,-1)));
-        return getans(0,digits,1,0,dp);
+        vector<vector<vector<int>>> dp(s.size(),vector<vector<int>> (2,vector<int> (2,-1)));        
+
+
+
+        int ans=getans(s,1,0,0,dp);
+
+        return ans; 
     }
 };
