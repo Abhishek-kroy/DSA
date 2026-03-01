@@ -50,6 +50,9 @@ public:
         for(auto r:board) for(char c:r) cnt[c]++;
         for(char c:word) if(--cnt[c]<0) return false;
 
+        if(cnt[word[0]] > cnt[word.back()])
+            reverse(word.begin(), word.end());  
+
         vector<bool> f(n*m,false);    
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
