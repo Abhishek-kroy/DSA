@@ -92,19 +92,19 @@ public:
             return 0;
         }
 
-        unordered_set<Node*> validptr;
-        validptr.insert(tree->root);  
+        vector<Node*> validptr;
+        validptr.push_back(tree->root);  
 
         for(int i=0;i<n;i+=2){
             string c="";
             c += word2[i];
             c += word2[i+1];      
-            unordered_set<Node*> nextvalidptr;
+            vector<Node*> nextvalidptr;    
 
             for(auto val:dec[c]){
                 for(auto ptr:validptr){
                     if(ptr->ch[val-'a']){
-                        nextvalidptr.insert(ptr->ch[val-'a']);
+                        nextvalidptr.push_back(ptr->ch[val-'a']);
                     }
                 }
             }
