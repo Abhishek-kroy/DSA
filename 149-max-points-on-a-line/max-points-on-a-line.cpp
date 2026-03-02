@@ -14,7 +14,8 @@ public:
 
             int cnt=0;
 
-            unordered_map<double,int> f;      
+            // unordered_map<double,int> f;      
+            unordered_map<string,int> f1;      
 
             for(int j=0;j<n;j++){
                 if(i==j){
@@ -26,21 +27,33 @@ public:
 
                 int dy=y2-y1;
                 int dx=x2-x1;
+
+                int gcd=__gcd(dy,dx);
+
+                dy=dy/gcd;
+                dx=dx/gcd;
+
+                string key=to_string(dy)+"_"+to_string(dx);
+
+                f1[key]++;
+                cnt=max(cnt,f1[key]);         
                 
-                double m=atan2(dy,dx);                   
+                // double m=atan2(dy,dx);                   
 
                 // if(dx!=0){
                 // }
 
-                f[m]++;
+                // f[m]++;
 
-                cnt=max(cnt,f[m]);
+                // cnt=max(cnt,f[m]);
 
             }
 
-            for(auto p:f){
-                ans=max(ans,1+p.second);  
-            }
+            ans=max(ans,cnt+1);
+
+            // for(auto p:f){
+            //     ans=max(ans,1+p.second);  
+            // }
 
 
         }   
