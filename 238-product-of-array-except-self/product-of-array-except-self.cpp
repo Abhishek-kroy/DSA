@@ -13,18 +13,18 @@ public:
 
         int pre=1;
 
-        vector<int> ans(n);
+        // vector<int> ans(n);
 
         for(int i=0;i<n-1;i++){
-            ans[i]=pre*suf[i+1];
+            suf[i]=pre*suf[i+1];
 
             pre=pre*nums[i];
 
         }
 
-        ans[n-1]=pre;
+        suf[n-1]=pre;  
 
-        return ans;  
+        return suf;    
 
         // int n=nums.size();
         // vector<int> pre(n);
