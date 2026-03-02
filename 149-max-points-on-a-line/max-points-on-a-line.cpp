@@ -1,48 +1,50 @@
 class Solution {
 public:
     int maxPoints(vector<vector<int>>& points) {
+        int ans=0;
+        int n=points.size();
 
-        int ans = 0;
-        int n = points.size();
+        if(n<=2){
+            return n; 
+        }
 
-        if(n <= 2) return n;
+        for(int i=0;i<n;i++){
+            int x1=points[i][0];
+            int y1=points[i][1];
 
-        unordered_map<int,int> f;
+            int cnt=0;
 
-        for(int i = 0; i < n; i++){
-            double x1 = points[i][0];
-            double y1 = points[i][1];
+            unordered_map<double,int> f;      
 
-            f[x1]++;
-
-            for(int j = i + 1; j < n; j++){
-                double x2 = points[j][0];
-                double y2 = points[j][1];
-
-                if(x2 == x1) continue;
-
-                double m = (y2 - y1) / (x2 - x1);
-                double c = y2 - m * x2;
-
-                int cnt = 0;
-
-                for(int k = 0; k < n; k++){
-                    double x3 = points[k][0];
-                    double y3 = points[k][1];
-
-                    if(abs(m * x3 + c - y3) <= 1e-5){
-                        cnt++;
-                    }
+            for(int j=0;j<n;j++){
+                if(i==j){
+                    continue;
                 }
 
-                ans = max(ans, cnt);
+                int x2=points[j][0];    
+                int y2=points[j][1];
+
+                int dy=y2-y1;
+                int dx=x2-x1;
+                
+                double m=atan2(dy,dx);                   
+
+                // if(dx!=0){
+                // }
+
+                f[m]++;
+
+                cnt=max(cnt,f[m]);
+
             }
-        }
 
-        for(auto p : f){
-            ans = max(ans, p.second);
-        }
+            for(auto p:f){
+                ans=max(ans,1+p.second);  
+            }
 
-        return ans;
+
+        }   
+
+        return ans;  
     }
-};    
+};
