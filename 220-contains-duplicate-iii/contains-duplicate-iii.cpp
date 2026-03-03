@@ -1,42 +1,42 @@
 class Solution {
 public:
     bool containsNearbyAlmostDuplicate(vector<int>& nums, int indexDiff, int valueDiff) {
+        unordered_map<int,int> f;
+        int j=0;
         int n=nums.size();
-        int l=0;
-        int r=0;
+        for(int i=0;i<n;i++){
+            int val=nums[i];     
+            
+            // so for valueDiff+1=4 
+            // -1 , -2 , -3 , -4 to -1 buc 
+            
+            int buc=val>=0 ? val/(valueDiff+1): (val+1)/(valueDiff+1)-1;  
 
-        multiset<int> s;
 
-        while(r<n){
-            s.insert(nums[r]);
-            if((r-l)==indexDiff){
-                s.erase(s.find(nums[l]));
-                int val=nums[l];
-                int left=val-valueDiff;
-                int right=val+valueDiff;    
-                auto it1=s.lower_bound(left);
-
-                if(it1!=s.end() && *it1>=left && *it1<=right){
+            if(f.find(buc)!=f.end()){
+                return true;
+            }
+            if(f.find(buc-1)!=f.end()){
+                if(abs(f[buc-1]-val)<=valueDiff){
+                    return true;    
+                }
+            }
+            if(f.find(buc+1)!=f.end()){      
+                if(abs(f[buc+1]-val)<=valueDiff){
                     return true;
                 }
-                l++;
             }
-            r++;
+
+            f[buc]=val;    
+
+            if((i-j)==indexDiff){
+                int v2=nums[j];
+                int buc2=v2>=0 ? v2/(valueDiff+1): (v2+1)/(valueDiff+1)-1;    
+                f.erase(buc2);
+                j++;   
+            }
         }
 
-        while(l<n){
-            s.erase(s.find(nums[l]));
-            int val=nums[l];
-            int left=val-valueDiff;
-            int right=val+valueDiff;    
-            auto it1=s.lower_bound(left);    
-
-            if(it1!=s.end() && *it1>=left && *it1<=right){
-                return true;
-            }    
-            l++;    
-        }
-
-        return false ;    
+        return false;    
     }
 };
