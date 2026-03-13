@@ -19,10 +19,19 @@ public:
 
         vector<int> res(r-l+1);
 
-        for(int k=j;k<=r;k++){
-            int cnt=abs((lower_bound(nums.begin()+l,nums.begin()+j,1LL*2*nums[k]+1)-(nums.begin()+mid+1)));       
+        int lptr=l;
+        // int rptr=mid+1;
 
-            ans+=cnt;    
+        for(int k=j;k<=r;k++){
+            // int cnt=abs((lower_bound(nums.begin()+l,nums.begin()+j,1LL*2*nums[k]+1)-(nums.begin()+mid+1)));  
+
+            while(lptr<mid+1 &&   !(nums[lptr]>1LL*2*nums[k])){
+                lptr++;
+            }     
+
+            ans += (mid - lptr + 1);    
+
+            // ans+=cnt;    
         }
 
         while(i<=mid && j<=r){
