@@ -1,37 +1,51 @@
 class Solution {
 public:
     bool checkStrings(string s1, string s2) {
+
         int n1=s1.size();
         int n2=s2.size();
-        string str1="";
-        string str2="";
 
-        for(int i=0;i<n1;i+=2){
-            str1+=s1[i];
+        vector<int> c1(26,0);
+        vector<int> c2(26,0);
+
+        for(int i=0;i<n1;i++){
+            if(i%2==0){
+                c1[s1[i]-'a']++;
+            }
+            else{
+                c2[s1[i]-'a']++;
+            }
         }
-        for(int i=0;i<n2;i+=2){
-            str2+=s2[i];
+        vector<int> c11(26,0);
+        vector<int> c22(26,0);
+
+        for(int i=0;i<n2;i++){
+            if(i%2==0){
+                c11[s2[i]-'a']++;
+            }
+            else{
+                c22[s2[i]-'a']++;
+            }
         }
 
-        sort(str1.begin(),str1.end());
-        sort(str2.begin(),str2.end());
+        for(int i=0;i<n2;i++){
+            if(i%2==0){
+                int f=c11[s2[i]-'a'];
+                if(c1[s2[i]-'a']!=f){
+                    return false;
+                }
+            }
+            else{
+                int f=c22[s2[i]-'a'];
+                if(c2[s2[i]-'a']!=f){
+                    return false;
+                }
 
-        if(str1!=str2){
-            return false;
+            }
         }
 
-        str1="";
-        str2="";
-        for(int i=1;i<n1;i+=2){
-            str1+=s1[i];
-        }
-        for(int i=1;i<n2;i+=2){
-            str2+=s2[i];
-        }
-        
-        sort(str1.begin(),str1.end());
-        sort(str2.begin(),str2.end());   
+        return true; 
 
-        return str1==str2;   
+
     }
 };
