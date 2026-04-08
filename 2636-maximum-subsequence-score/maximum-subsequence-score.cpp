@@ -33,7 +33,6 @@ public:
                 pq.push(v[i][1]);
             }
             else{
-                ans=max(ans,1LL*sum*v[i][0]);   
                 if(pq.top()<v[i][1]){
                     sum-=pq.top();
                     pq.pop();
