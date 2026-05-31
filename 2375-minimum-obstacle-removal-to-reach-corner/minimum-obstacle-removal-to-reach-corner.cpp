@@ -55,9 +55,9 @@ public:
                 return st;    
             }
 
-            if(st>vis[i][j]){
-                continue; 
-            }
+            // if(st>vis[i][j]){
+            //     continue; 
+            // } 
 
 
             if(i+1<n && vis[i+1][j]>grid[i+1][j]+st){     
