@@ -1,28 +1,28 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        unordered_map<char,int> m;
+
+        if((int)s.size()!=(int)t.size()){
+            return false; 
+        }
+
+        vector<int> f1(26,0);
+        // vector<int> f2(26,0);            
+
         for(auto c:s){
-            m[c]++;
+            f1[c-'a']++;
         }
-        unordered_map<char,int> m1;
+
         for(auto c:t){
-            m1[c]++;
+            f1[c-'a']--; 
         }
 
-        for(auto p:m){
-            char c=p.first;
-            if(m[c]!=m1[c]){
-                return false;
-            }
-        }
-        for(auto p:m1){
-            char c=p.first;
-            if(m[c]!=m1[c]){
+        for(int i=0;i<26;i++){
+            if(f1[i]){    
                 return false;
             }
         }
 
-        return true;
+        return true;        
     }
 };
