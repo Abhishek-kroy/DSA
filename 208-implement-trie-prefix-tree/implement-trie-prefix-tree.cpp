@@ -1,57 +1,63 @@
-class node {
-public:
-    vector<node*> children;
-    bool isend;  
-    node(){
-        children.assign(26,NULL);
-        isend=false;
-    }
+class node{
+    public:
+        vector<node*> ch;
+        bool isend;
+
+        node(){
+            ch.assign(26,NULL);
+            isend=false; 
+        }
 };
 
 class Trie {
-    node* root;
 public:
+    node* root;    
     Trie() {
-        root=new node();
+        root = new node();    
     }
     
     void insert(string word) {
-        node* temp=root;
+        node* tmp=root;
+
         for(auto c:word){
-            int ind=c-'a';
-            if(temp->children[ind]==NULL){
-                temp->children[ind]=new node();
+            if(!tmp->ch[c-'a']){
+                tmp->ch[c-'a']=new node();
             }
-            temp=temp->children[ind];  
+
+            tmp=tmp->ch[c-'a'];
         }
 
-        temp->isend=true; 
+        tmp->isend=true; 
     }
     
     bool search(string word) {
-        node* temp=root;
+        node* tmp=root;
+
         for(auto c:word){
-            int ind=c-'a';
-            if(temp->children[ind]==NULL){
+            if(!tmp->ch[c-'a']){
                 return false;
             }
-            temp=temp->children[ind];  
+
+            tmp=tmp->ch[c-'a'];
         }
 
-        return temp->isend;
+        return tmp->isend; 
     }
     
     bool startsWith(string prefix) {
-        node* temp=root;
-        for(auto c:prefix){      
-            int ind=c-'a';
-            if(temp->children[ind]==NULL){
+
+        node* tmp=root;    
+
+        for(auto c:prefix){        
+            if(!tmp->ch[c-'a']){
                 return false;
             }
-            temp=temp->children[ind];        
+
+            tmp=tmp->ch[c-'a'];
         }
 
-        return true; 
+        return true;      
+        
     }
 };
 
