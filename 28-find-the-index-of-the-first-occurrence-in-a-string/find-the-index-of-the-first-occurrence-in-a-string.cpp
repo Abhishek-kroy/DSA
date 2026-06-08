@@ -1,45 +1,71 @@
 class Solution {
 public:
-    int strStr(string haystack, string needle) {
-        if (needle.size() > haystack.size()) return -1;
+    void getlps(vector<int>& lps,string& needle,int m){
+        lps[0]=0;
 
-        int base = 31;
-        int mod = 1e9 + 7;
-        int n = needle.size();
+        int len=0;
 
-        // Hash of needle
-        long long target = 0;
-        for (char c : needle) {
-            target = (target * base + (c - 'a' + 1)) % mod;
-        }
+        int i=1; 
 
-        // power = base^(n-1)
-        long long power = 1;
-        for (int i = 0; i < n; i++) { 
-            power = (power * base) % mod;
-        }
-
-        long long hash = 0;
-        int i = 0;
-
-        for (int j = 0; j < haystack.size(); j++) {
-
-            // ALWAYS add current character
-            hash = (hash * base + (haystack[j] - 'a' + 1)) % mod;
-
-            // Shrink window if too large
-            if (j - i + 1 > n) {
-                hash = (hash - (haystack[i] - 'a' + 1) * power % mod + mod) % mod;
+        while(i<m){
+            if(needle[i]==needle[len]){
+                len++;
+                lps[i]=len;
                 i++;
             }
+            else{
 
-            // Check match
-            if (j - i + 1 == n && hash == target) {
-                if (haystack.substr(i, n) == needle)
-                    return i;
+                if(len>0){
+                    len=lps[len-1];
+                }                     
+                else{
+                    lps[i]=0;
+                    len=0;
+                    i++; 
+                }                           
+            }
+        }
+    }
+
+    int strStr(string haystack, string needle) {
+        int n=haystack.size();
+
+        int m=needle.size();
+
+        vector<int> lps(m);
+
+        getlps(lps,needle,m);
+
+        int i=0;
+
+        int j=0;
+
+        // vector<int> l(n,0); 
+
+        int ans=-1; 
+
+        while(i<n){
+            if(haystack[i]==needle[j]){
+                i++; 
+                j++;          
+
+                if(j==m && ans==-1){
+                    ans=i-m;
+                } 
+            }
+            else{
+                // l[i]=j+1; 
+
+
+                if(j>0){
+                    j=lps[j-1];
+                }
+                else{
+                    i++; 
+                }
             }
         }
 
-        return -1;
+        return ans; 
     }
-}; 
+};
