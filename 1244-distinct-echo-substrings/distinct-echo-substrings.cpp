@@ -1,45 +1,44 @@
 class Solution {
 public:
     int distinctEchoSubstrings(string text) {
-        unordered_set<int> ans;
         int n=text.size();
-        int base=31;
-        int MOD=1e9+7;  
 
-        for(int i=0;i<n-1;i++){
-            int j=i;
-            int st=i+1;
-            int end=i+1;
-            long long f=text[i]-'a'+1;
-            long long s=text[i+1]-'a'+1;
-            if(f==s){
-                ans.insert(f); 
-            }
+        int b=31;
 
-            long long power=1;         
+        int mod=(int)1e9+7;
 
-            while(end+2<n){  
-                j++;
-                f=(f*base+(text[j]-'a'+1))%MOD ; 
+        vector<vector<long long>> v(n,vector<long long> (n,-1));     
 
-                s = ((s - ((text[st] - 'a' + 1) * power)%MOD)+MOD)%MOD;  
-                power=(power*base)%MOD;
+        unordered_set<string> s;    
 
-                st++;
-                s=s*base;
-                s=s*base;
-                s=(s+((text[end+1]-'a'+1)*base)+(text[end+2]-'a'+1))%MOD;   
-                end+=2; 
+        int ans=0; 
 
-                
-                if(f==s){
-                    ans.insert(f); 
+        for(int i=0;i<n;i++){
+            long long f=0;
+            string str="";
+            for(int j=i;j<n;j++){
+                f=((f*b+text[j]-'a'+1)%mod);
+
+                str+=text[j]; 
+
+                int len=j-i+1;
+
+                int k=i-len;
+
+                if(k>=0){
+                    long long f2=v[k][i-1];
+
+                    if(f==f2){        
+                        s.insert(str);
+                    } 
                 }
+
+                v[i][j]=f;        
             }
-
-
         }
 
-        return ans.size()  ; 
+        ans=s.size();
+
+        return ans;        
     }
 };
