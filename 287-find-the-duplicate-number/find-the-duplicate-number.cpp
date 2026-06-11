@@ -8,7 +8,7 @@ public:
 
         while(i!=j){
 
-            cout<<i<<" "<<j<<endl; 
+            // cout<<i<<" "<<j<<endl; 
 
             i=nums[i];
             j=nums[nums[j]];
