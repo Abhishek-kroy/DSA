@@ -1,43 +1,35 @@
 class Solution {
 public:
     string longestPrefix(string s) {
-        int ind=-1;
+        int n=s.size();
 
-        int n=s.size(); 
+        vector<int> z(n);
+        z[0]=0;
 
         int l=0;
-        int r=n-1;
-        int base=31;
-        long long power=1;
-        int mod=1e9+7;
+        int r=0;
 
-        long long pre=0;
-        long long suf=0;
-        while(l<n-1){
+        for(int i=1;i<n;i++){
+            if(i<r){
+                z[i]=min(r-i,z[i-l]);
 
-            char c=s[l]-'a'+1;
-            pre=(pre*base+c)%mod;
-
-            char c2=s[r]-'a'+1;
-            suf=(suf+c2*power)%mod;
-
-            power=(power*base)%mod;  
-
-            if(pre==suf){
-                ind=l;
+            }
+            while(i+z[i]<n && s[z[i]]==s[i+z[i]]){
+                z[i]++;
             }
 
-            l++;
-            r--;
+            if(i+z[i]>r){
+                l=i;
+                r=i+z[i];
+            }
         }
 
-        string ans;
-        ans.reserve(ind+1);
-
-        for(int i=0;i<=ind;i++){
-            ans.push_back(s[i]);
+        for(int i=1;i<n;i++){
+            if(i+z[i]==n){
+                return s.substr(i,z[i]);
+            }
         }
 
-        return ans;    
+        return ""; 
     }
 };
