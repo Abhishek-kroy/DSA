@@ -1,29 +1,30 @@
 class Solution {
 public:
-    int dp[46];    
-    int getans(int i,int n){
-        if(i==n){
-            return 1;
+    int dp[46];
+
+    int getans(int n){
+        if(n<=2){
+            return n;
+        }      
+
+        if(dp[n]!=-1){
+            return dp[n]; 
         }
 
-        if(dp[i]!=-1){
-            return dp[i];
-        }
+        int w1=getans(n-1)+getans(n-2);        
 
-        int w1=getans(i+1,n); 
-        int w2=0;
+        dp[n]=w1;
 
-        if(i+2<=n){
-            w2=getans(i+2,n);
-        }
-
-        dp[i]=w1+w2; 
-
-        return w1+w2; 
+        return w1;           
     }
 
     int climbStairs(int n) {
-        memset(dp,-1,sizeof(dp));    
-        return getans(0,n);
+        if(n<=2){
+            return n;
+        }            
+
+        memset(dp,-1,sizeof(dp));
+
+        return getans(n);          
     }
 };
