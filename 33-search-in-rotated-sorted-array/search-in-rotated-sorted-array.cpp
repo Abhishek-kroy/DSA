@@ -4,29 +4,24 @@ public:
         int n=nums.size();
 
         int l=0;
-
         int r=n-1;
-
-        int ans=-1;
 
         while(l<=r){
             int mid=l+(r-l)/2;
 
             if(nums[mid]==target){
-                ans=mid;
-                break;    
+                return mid; 
             }
 
-            else if(nums[l]<=nums[mid]){
+            if(nums[l]<=nums[mid]){
                 if(target>=nums[l] && target<=nums[mid]){
-                    r=mid-1;
+                    r=mid-1;                                                            
                 }
                 else{
-                    l=mid+1;
+                    l=mid+1; 
                 }
             }
-
-            else {
+            else{
                 if(target>=nums[mid] && target<=nums[r]){
                     l=mid+1;
                 }
@@ -34,8 +29,8 @@ public:
                     r=mid-1;
                 }
             }
-        }
+        }           
 
-        return ans; 
+        return -1; 
     }
 };
