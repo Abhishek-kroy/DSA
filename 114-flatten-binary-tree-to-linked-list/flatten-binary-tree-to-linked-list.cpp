@@ -43,7 +43,7 @@ public:
 
         return {l,r};
     }
-    void flatten(TreeNode*& root) {
+    void flatten(TreeNode* root) {
         auto [l,r]=getans(root);        
         root=l; 
     }
