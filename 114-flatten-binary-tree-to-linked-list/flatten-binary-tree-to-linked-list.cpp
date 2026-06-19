@@ -45,6 +45,5 @@ public:
     }
     void flatten(TreeNode* root) {
         auto [l,r]=getans(root);        
-        root=l; 
     }
 };
