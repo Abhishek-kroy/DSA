@@ -18,9 +18,9 @@ public:
         while(!pq.empty()){
             auto v=pq.top();
 
-            int x=v[0];      
-            int y=v[1];      
-            int val=v[2];                              
+            int val=v[0];                              
+            int x=v[1];      
+            int y=v[2];              
 
             pq.pop();
 
@@ -41,7 +41,7 @@ public:
 
                     if(vis[nx][ny]>nval){
                         vis[nx][ny]=nval;
-                        pq.push({nx,ny,nval});                                                
+                        pq.push({nval,nx,ny});                                                      
                     }
                 }
             }
