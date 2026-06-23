@@ -1,53 +1,51 @@
 class Solution {
 public:
-    int getans(vector<int>& edges, vector<bool>& visited, int node) {
-        int nod = node;
-        unordered_map<int, int> parent;
+    int getans(int n,vector<vector<int>>& adj, vector<int>& vis,int node,int dist){
+        vis[node]=dist;
 
-        while (nod != -1 && !visited[nod]) {
-            visited[nod] = true;
+        int ans=0;
 
-            if (edges[nod] != -1) {
-                parent[edges[nod]] = nod;
+        for(auto nei:adj[node]){        
+            if(vis[nei]==1){
+                continue; 
             }
 
-            nod = edges[nod];
-        }
-
-        if (nod == -1 || edges[nod]==-1) {
-            return 0;
-        }
-
-        if (!parent.count(nod)) {
-            return 0;
-        }
-
-        unordered_set<int> nei;
-        int len = 0;
-
-        while (nei.find(nod) == nei.end()) {
-            if (!parent.count(nod)) {
-                return 0;
+            else if(vis[nei]>=2){
+                int val = abs ( vis[nei]-dist);
+                ans=max(ans,val+1);
             }
-            nei.insert(nod);
-            nod = parent[nod];
-            len++;
+
+            else{
+                ans=max(ans,getans(n,adj,vis,nei,dist+1));                                
+            }
         }
-        
-        return len;
+        vis[node]=1;
+
+        return ans; 
     }
 
     int longestCycle(vector<int>& edges) {
-        int n = edges.size();
-        vector<bool> visited(n, false);
-        int ans = -1;
 
-        for (int i = 0; i < n; i++) {
-            if (!visited[i]) {
-                ans = max(ans, getans(edges, visited, i));
+        int n=edges.size();
+
+        vector<vector<int>> adj(n);
+
+        for(int i=0;i<n;i++){
+            if(edges[i]!=-1){
+                adj[i].push_back(edges[i]);        
             }
         }
 
-        return ans == 0 ? -1 : ans;
+        int ans=0;      
+
+        vector<int> vis(n,0);
+
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                ans=max(ans,getans(n,adj,vis,i,2));        
+            }                        
+        }
+
+        return ans==0 ? -1 : ans;        
     }
 };
