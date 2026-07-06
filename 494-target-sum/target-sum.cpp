@@ -1,28 +1,29 @@
 class Solution {
 public:
-    int getans(vector<int> &nums, int target, int val, int i, vector<vector<int>> &dp, int offset) {
-        if (i >= nums.size()) {
-            return (val == target) ? 1 : 0;
+    int dp[20][4001];
+    int getans(vector<int>& nums,int target,int i){
+        int n=nums.size();
+
+        if(i>=n){
+            return target==0;
         }
 
-        if (dp[i][val + offset] != -1) {
-            return dp[i][val + offset];
+        if(dp[i][target+2000]!=-1){
+            return dp[i][target+2000];
         }
 
-        int w1 = getans(nums, target, val + nums[i], i + 1, dp, offset);
-        int w2 = getans(nums, target, val - nums[i], i + 1, dp, offset);
+        int w1=getans(nums,target+nums[i],i+1);
+        int w2=getans(nums,target-nums[i],i+1);
 
-        return dp[i][val + offset] = w1 + w2;
+        return dp[i][target+2000]=w1+w2;
     }
-
     int findTargetSumWays(vector<int>& nums, int target) {
-        int sum = accumulate(nums.begin(), nums.end(), 0);
 
-        if (target > sum || target < -sum) return 0;
+        memset(dp,-1,sizeof(dp));        
         
-        int offset = sum;
-        vector<vector<int>> dp(nums.size(), vector<int>(2 * sum + 1, -1));
+        int ans=getans(nums,target,0);
 
-        return getans(nums, target, 0, 0, dp, offset);
+
+        return ans;          
     }
 };
