@@ -1,37 +1,51 @@
 class Solution {
 public:
+    int dp[600][101][101]; 
+    int getans(vector<string>& strs,vector<vector<int>>& cnt,int m,int n,int i){
+        int s=strs.size();
 
-    int getans(vector<pair<int,int>> &cnt,int z,int o,int i,int m,int n,vector<vector<vector<int>>>& dp){
-        if(i>=cnt.size())   return 0;
-        if(dp[i][z][o]!=-1){
-            return dp[i][z][o];
-        }
-        int w1=0,w2=0;
-        // take
-        if(z+cnt[i].first<=m && o+cnt[i].second<=n){
-            w1=1+getans(cnt,z+cnt[i].first,o+cnt[i].second,i+1,m,n,dp); 
+        if(i>=s){          
+            return 0;
         }
 
-        // not take 
-        w2=getans(cnt,z,o,i+1,m,n,dp);
 
-        return dp[i][z][o]=max(w1,w2); 
+        if(dp[i][m][n]!=-1){
+            return dp[i][m][n];
+        }
+        // take 
+        int w1=0;
+        if(cnt[i][0]<=m && cnt[i][1]<=n){        
+            w1=1+getans(strs,cnt,m-cnt[i][0],n-cnt[i][1],i+1);
+        }
+
+        int w2=getans(strs,cnt,m,n,i+1);
+
+        return dp[i][m][n]=max(w1,w2);           
     }
-    int findMaxForm(vector<string>& strs, int m, int n) { 
-        vector<vector<vector<int>>> dp(strs.size(),vector<vector<int>> (m+1,vector<int> (n+1,-1)));        
-        vector<pair<int,int>> cnt(strs.size(),{0,0});
-        int i=0;
-        for(auto str:strs){
-            int zero=0;
-            int one=0;
-            for(auto c:str){
-                if(c=='0')  zero++;
-                else    one++;
+
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        int s=strs.size();
+        vector<vector<int>> cnt(s,vector<int> (2,0));
+
+        for(int i=0;i<s;i++){
+            int z=0;
+            int o=0;
+            string str=strs[i];
+
+            for(auto v:str){
+                if(v=='0'){
+                    z++;
+                }
+                else{
+                    o++;
+                }
             }
-            cnt[i]={zero,one}; 
-            i++; 
+
+            cnt[i]={z,o};
         }
 
-        return getans(cnt,0,0,0,m,n,dp);
+        memset(dp,-1,sizeof(dp)); 
+
+        return getans(strs,cnt,m,n,0);
     }
 };
