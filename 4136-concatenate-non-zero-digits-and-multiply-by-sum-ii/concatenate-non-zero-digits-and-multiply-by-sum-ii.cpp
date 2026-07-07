@@ -57,7 +57,7 @@ public:
 
        int i=0;          
 
-       for(auto q:queries){
+       for(auto& q:queries){
         int l=q[0];
         int r=q[1];
 
