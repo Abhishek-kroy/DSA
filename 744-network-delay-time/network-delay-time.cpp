@@ -1,44 +1,47 @@
 class Solution {
-private:
-    void dij(unordered_map<int,vector<pair<int,int>>> &adj, int n, int k,vector<int>& dist){
-        dist[k-1]=0;
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
-        pq.push({0,k-1});
-
-        while(!pq.empty()){
-            auto [distance,node]=pq.top();
-            pq.pop();
-
-            for(auto neigh:adj[node]){
-                int nnode=neigh.first;
-                int cost=neigh.second;
-
-                if(distance+cost<dist[nnode]){
-                    dist[nnode]=distance+cost;
-                    pq.push({dist[nnode],nnode});
-                }
-            }
-        }
-
-        return ;
-    }
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        vector<int> dist(n,INT_MAX);
+        vector<vector<pair<int,int>>> adj(n+1);          
 
-        unordered_map<int,vector<pair<int,int>>> adj;
         for(auto t:times){
-            adj[t[0]-1].push_back({t[1]-1,t[2]});
+            adj[t[0]].push_back({t[1],t[2]});            
         }
-        dij(adj,n,k,dist);
+
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq; 
+        vector<int> dis(n+1,INT_MAX);
+        pq.push({0,k});
+        dis[k]=0; 
+
+
+
+        while(!pq.empty()){
+            auto [dist,node]=pq.top();
+
+            pq.pop();
+
+            if(dis[node]<dist){
+                continue; 
+            }
+
+            for(auto [nei,wt]:adj[node]){
+                if(dis[nei]>dis[node]+wt){
+                    dis[nei]=dis[node]+wt;
+
+                    pq.push({dis[nei],nei});
+                }
+            }
+        } 
 
         int ans=0;
-        for(auto i:dist){
-            ans=max(ans,i);
+
+        for(int i=1;i<n+1;i++){
+            ans=max(ans,dis[i]);
         }
 
-        return ans==INT_MAX ? -1 : ans;
-        
+        if(ans==INT_MAX){
+            return -1; 
+        }
 
+        return ans;          
     }
 };
