@@ -1,52 +1,51 @@
 class Solution {
 public:
-    int dfs(vector<vector<int>>& adj,int node,int par,vector<int>& h){
-        int hei=0;
-
+    void dfs1(int n, vector<vector<int>>& adj,vector<int>& height,int node,int par){            
         for(auto ch:adj[node]){
-            if(ch!=par){
-                hei=max(hei,dfs(adj,ch,node,h));
+            if(ch==par){
+                continue;
+            }
+
+            dfs1(n,adj,height,ch,node);
+            height[node]=max(height[node],1+height[ch]);
+        }
+    }
+
+    void dfs2(int n, vector<vector<int>>& adj,vector<int>& height,int& h,vector<int>& ans,int node,int par,int outsidehei){
+        int nh=max(height[node],outsidehei);
+        if(nh<h){
+            ans.clear();
+            ans.push_back(node);
+
+            h=nh;
+        }
+        else if(nh==h){
+            ans.push_back(node);
+        }
+
+        vector<int> maxh(2,0);
+        for(auto ch:adj[node]){
+            if(ch==par){
+                continue;
+            }
+            int hh=1+height[ch];    
+            if(hh>maxh[0]){
+                maxh[1]=maxh[0];
+                maxh[0]=hh;            
+            }
+            else if(hh>maxh[1]){
+                maxh[1]=hh;
             }
         }
 
-        h[node]=1+hei;
-
-        return h[node];
-    }
-
-    void dfs2(vector<vector<int>>& adj,int node,int par,vector<int>& h,int hei,vector<int>& ans){
-        int lar=-1;
-        int lnode=-1;
-        int slar=-1;
-
         for(auto ch:adj[node]){
-            if(ch==par) continue;
-
-            if(h[ch]>=lar){
-                slar=lar;
-                lar=h[ch];
-                lnode=ch;
-            }
-            else if(h[ch]>slar){
-                slar=h[ch];
-            }
-        } 
-
-        ans[node]=max(h[node],hei+1);
-
-        for(auto ch:adj[node]){
-            if(ch==par) continue;
-
-            int newHei;
-
-            if(ch!=lnode){
-                newHei=1+max(lar,hei);
-            }
-            else{
-                newHei=1+max(slar,hei);
+            if(ch==par){
+                continue;
             }
 
-            dfs2(adj,ch,node,h,newHei,ans);
+            int noutsidehei=1+max(outsidehei,1+height[ch]==maxh[0]? maxh[1]:maxh[0]);
+
+            dfs2(n,adj,height,h,ans,ch,node,noutsidehei);
         }
     }
 
@@ -58,25 +57,13 @@ public:
             adj[e[1]].push_back(e[0]);
         }
 
-        vector<int> h(n);
+        vector<int> height(n,0);
+        dfs1(n,adj,height,0,-1);    
+        vector<int> ans;
+        int h=height[0];
 
-        dfs(adj,0,-1,h);
+        dfs2(n,adj,height,h,ans,0,-1,-1);
 
-        vector<int> ans(n,0);
-
-        dfs2(adj,0,-1,h,0,ans);          
-
-        vector<int> res;
-
-        int mini=*min_element(ans.begin(),ans.end());
-
-        for(int i=0;i<n;i++){
-
-            if(ans[i]==mini){
-                res.push_back(i); 
-            }
-        }
-
-        return res;            
+        return ans;
     }
-};  
+};
