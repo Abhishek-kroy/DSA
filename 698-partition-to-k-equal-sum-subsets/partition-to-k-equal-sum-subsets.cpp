@@ -1,9 +1,9 @@
 class Solution {
 public:
-    bool getans(vector<int>& nums,int k,int target,int mask,int sum,vector<int> &dp){
+    bool getans(vector<int>& nums,int sum,int mask,int csum,vector<int>& dp){
         int n=nums.size();
-        if(k==0){
-            return true;
+        if(mask==(1<<n)-1){
+            return csum==0;
         }
 
         if(dp[mask]!=-1){
@@ -11,41 +11,35 @@ public:
         }
 
         for(int i=0;i<n;i++){
-            if(!(mask&(1<<i))){
-                int newsum=sum+nums[i];
-                if(newsum>target) continue;
-                int newmask=mask|(1<<i);
-
-                if(newsum==target){
-                    if(getans(nums,k-1,target,newmask,0,dp)){
-                        return dp[mask]=true;
+            if(!(mask&1<<i)){
+                int nmask=mask|(1<<i);
+                if(csum+nums[i]==sum){
+                    bool ans=getans(nums,sum,nmask,0,dp);
+                    if(ans){
+                        return dp[mask]=ans;
                     }
                 }
-                else{
-                    if(getans(nums,k,target,newmask,newsum,dp)){
-                        return dp[mask]=true;
+                else if(csum+nums[i]<sum){
+                    bool ans=getans(nums,sum,nmask,csum+nums[i],dp);
+                    if(ans){
+                        return dp[mask]=ans;
                     }
-
                 }
             }
         }
 
-        return dp[mask]=false;
+        return dp[mask]=false; 
     }
     bool canPartitionKSubsets(vector<int>& nums, int k) {
         int n=nums.size();
-        vector<int> dp(1<<n,-1);
-        long long total=0;
+        long long tsum=0;
         for(auto v:nums){
-            total+=v;
+            tsum+=v;
         }
-
-        if(total%k){
+        if(tsum%k){
             return false;
         }
-
-        total/=k;
-
-        return getans(nums,k,total,0,0,dp);
+        vector<int> dp((1<<n)+1,-1);
+        return getans(nums,tsum/k,0,0,dp);
     }
 };
