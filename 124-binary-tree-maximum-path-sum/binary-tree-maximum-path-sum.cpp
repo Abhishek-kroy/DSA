@@ -11,25 +11,26 @@
  */
 class Solution {
 public:
-    int getans(TreeNode* root,int& ans){            
+    int getans(TreeNode* root, int& ans){
         if(!root){
             return 0;
         }
 
-        int w1=getans(root->left,ans);
+        int l=getans(root->left,ans);
+        int r=getans(root->right,ans);
 
-        int w2=getans(root->right,ans);
+        int w1=l+root->val+r;
+        int w2=root->val+r;
+        int w3=l+root->val;
+        int w4=root->val;
+        ans=max({ans,w1,w2,w3,w4});
 
-        ans=max(ans,w1+root->val+w2);                          
-
-        return max({0,w1+root->val,w2+root->val});
+        return max({w2,w3,w4});
     }
-
     int maxPathSum(TreeNode* root) {
-        int ans=INT_MIN;
-
+        int ans=INT_MIN;    
         getans(root,ans);
 
-        return ans; 
+        return ans;
     }
 };
