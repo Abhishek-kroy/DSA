@@ -11,39 +11,30 @@
  */
 class Solution {
 public:
-    vector<int> getans(TreeNode* root,int& ans){
+    vector<long long> getans(TreeNode* root,long long& ans){
         if(!root){
-            return {INT_MAX,INT_MIN,0};                      
+            return {INT_MAX,INT_MIN,0};
         }
 
-        auto v=getans(root->left,ans);        
-        int l1=v[0];
-        int r1=v[1];
-        int s1=v[2];
+        auto l1=getans(root->left,ans);
 
-        auto v2=getans(root->right,ans);                 
-        int l2=v2[0];
-        int r2=v2[1];
-        int s2=v2[2];
+        auto l2=getans(root->right,ans);            
 
-        if(root->val>r1 && root->val<l2){
-            ans=max(ans,s1+root->val+s2);          
+        long long sum=INT_MIN;
 
-            return {min(l1,root->val),max(root->val,r2),s1+root->val+s2};          
+        if(l1[2]!=INT_MIN && l2[2]!=INT_MIN && root->val>l1[1] && root->val<l2[0]){
+            ans=max(ans,1LL*l1[2]+root->val+l2[2]);        
+            sum=1LL*l1[2]+l2[2]+root->val;            
         }
 
-        return {INT_MIN,INT_MAX,INT_MIN};           
+        int left= l1[1]==INT_MIN ? root->val:l1[0];
+        int right=l2[0]==INT_MAX ? root->val:l2[1];
 
+        return {left,right,sum};            
     }
     int maxSumBST(TreeNode* root) {
-        if(!root){
-            return 0; 
-        }
-
-        int ans=0;
-
-        auto v=getans(root,ans);       
-
-        return ans; 
+        long long ans=0;
+        getans(root,ans);
+        return ans;
     }
 };
