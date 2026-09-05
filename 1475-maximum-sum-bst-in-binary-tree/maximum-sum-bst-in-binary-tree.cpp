@@ -30,8 +30,9 @@ public:
         int left= l1[1]==INT_MIN ? root->val:l1[0];
         int right=l2[0]==INT_MAX ? root->val:l2[1];
 
-        return {left,right,sum};            
+        return {left,right,sum};        
     }
+
     int maxSumBST(TreeNode* root) {
         long long ans=0;
         getans(root,ans);
