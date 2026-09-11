@@ -1,36 +1,21 @@
 class Solution {
 public:
     int totalNumbers(vector<int>& digits) {
-       vector<int> f(10,0);
+        unordered_map<int,int> f;
         for(auto d:digits){
             f[d]++;
+        }        
+
+        int ans=0;
+
+        for(int i=1;i<10;i++){
+            for(int j=0;j<10;j++){
+                for(int k=0;k<9;k+=2){
+                    ans+=f[i] && f[j] > (i==j) && f[k] > ((i==k) + (j==k));
+                }
+            }
         }
 
-        vector<int> ans;
-
-        for(int i=100;i<999;i+=2){
-            int v1=i/100;
-            int v2=(i%100)/10;
-            int v3=i%10;
-            bool pos=true;
-            if(f[v1]<=0){
-                pos=false;
-            }
-            f[v1]--;
-            if(f[v2]<=0){
-                pos=false;
-            }
-            f[v2]--;
-            if(f[v3]<=0){
-                pos=false;
-            }
-            f[v2]++;
-            f[v1]++;
-            if(pos)
-                ans.push_back(i);
-
-        }
-
-        return ans.size();
+        return ans;
     }
 };
