@@ -1,9 +1,3 @@
-#include <string>
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
 class Solution {
     long long base = 313;
     long long mod1 = 1e9 + 7;
