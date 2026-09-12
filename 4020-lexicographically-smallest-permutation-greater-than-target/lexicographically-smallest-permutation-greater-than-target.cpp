@@ -64,10 +64,6 @@ public:
 
         getans(s,target,0,true,pal);
 
-        if(ans==target){
-            return "";
-        }
-
         return ans;
     }
 };
