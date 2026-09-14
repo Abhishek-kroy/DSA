@@ -51,7 +51,5 @@ public:
         }
 
         return getans(rec2,rec1);
-
-        return false;        
     }
 };
