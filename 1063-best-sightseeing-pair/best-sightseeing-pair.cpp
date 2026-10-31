@@ -10,7 +10,6 @@ public:
             ans=max(ans,ith+jth);
             if(nums[i]+i>=ith){
                 ith=nums[i]+i;
-                jth=INT_MIN;
             }
         }
         return ans;
